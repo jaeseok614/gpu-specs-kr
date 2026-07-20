@@ -208,7 +208,18 @@ Wikipedia (NVIDIA GPU list, AMD GPU list, Intel Arc) — [CC BY-SA 4.0](https://
 
 ## 활용 프로젝트
 
-- **LLM GPU Checker** — 내 GPU에서 실행 가능한 LLM 계산기 (예정)
+### [LLM GPU Checker KO](https://github.com/jaeseok614/llm-gpu-checker-ko)
+
+> 내 GPU에서 어떤 LLM을 현실적으로 실행할 수 있는지 확인하는 한국어 웹 도구
+
+GPU 스펙 데이터는 **gpu-specs-kr** 프로젝트를 기반으로 관리합니다.
+
+| 프로젝트 | 역할 |
+|----------|------|
+| **gpu-specs-kr** (이 저장소) | GPU 원천 데이터 · 정규화 · API |
+| [llm-gpu-checker-ko](https://github.com/jaeseok614/llm-gpu-checker-ko) | 위 데이터를 활용하는 LLM 호환성 계산기 |
+
+[웹에서 바로 사용하기 →](https://jaeseok614.github.io/llm-gpu-checker-ko/)
 
 ## 기여
 
