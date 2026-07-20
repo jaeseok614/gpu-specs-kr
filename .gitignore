@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# DB (데이터는 크롤러로 수집)
+backend/gpu_specs.db
+
+# Node
+node_modules/
+build/
+.env.local
+
+# Logs
+*.log
+nohup.out
+
+# OS
+.DS_Store
+Thumbs.db
