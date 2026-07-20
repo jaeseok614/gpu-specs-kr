@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/gpu-specs-kr/static/css/main.e52d7805.css",
+    "main.js": "/gpu-specs-kr/static/js/main.fc4b9e79.js",
+    "index.html": "/gpu-specs-kr/index.html",
+    "main.e52d7805.css.map": "/gpu-specs-kr/static/css/main.e52d7805.css.map",
+    "main.fc4b9e79.js.map": "/gpu-specs-kr/static/js/main.fc4b9e79.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e52d7805.css",
+    "static/js/main.fc4b9e79.js"
+  ]
+}
