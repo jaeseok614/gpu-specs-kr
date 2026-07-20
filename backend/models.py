@@ -2,7 +2,7 @@
 SQLAlchemy ORM models.
 """
 
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Float, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
 
 from database import Base
@@ -33,4 +33,10 @@ class GPU(Base):
     transistors = Column(String(50))
     die_size = Column(String(50))
     source_url = Column(String(512))
+    source_page = Column(String(255))
+    collected_at = Column(String(30))
+    last_updated_at = Column(String(30))
+    memory_size_gb = Column(Float)
+    tdp_w = Column(Integer)
+    release_year = Column(Integer)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -95,15 +95,16 @@ export default function App() {
       </main>
 
       <footer className="bg-gray-900 border-t border-gray-800 text-center text-gray-500 text-xs py-4 mt-8">
-        GPU 스펙 DB &mdash; 개인 학습 목적 프로젝트 &middot; 데이터 출처:{" "}
+        GPU 스펙 DB &mdash; 오픈소스 프로젝트 &middot; 데이터 출처:{" "}
         <a
-          href="https://www.techpowerup.com/gpu-specs/"
+          href="https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units"
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-400 hover:text-green-400"
         >
-          TechPowerUp
+          Wikipedia
         </a>
+        {" "}(CC BY-SA 4.0)
       </footer>
     </BrowserRouter>
   );

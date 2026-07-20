@@ -28,6 +28,12 @@ class GPUBase(BaseModel):
     transistors: Optional[str] = None
     die_size: Optional[str] = None
     source_url: Optional[str] = None
+    source_page: Optional[str] = None
+    collected_at: Optional[str] = None
+    last_updated_at: Optional[str] = None
+    memory_size_gb: Optional[float] = None
+    tdp_w: Optional[int] = None
+    release_year: Optional[int] = None
 
 
 class GPUListItem(GPUBase):

@@ -6,8 +6,13 @@ venv/
 .venv/
 *.egg-info/
 
-# DB (데이터는 크롤러로 수집)
+# DB 바이너리는 무시 (크롤러로 재생성)
 backend/gpu_specs.db
+
+# data/ 폴더의 내보내기 결과물은 커밋 대상으로 포함
+# data/gpu_specs.json, data/gpu_specs.csv, data/schema.json 은 무시하지 않음
+!data/*.json
+!data/*.csv
 
 # Node
 node_modules/

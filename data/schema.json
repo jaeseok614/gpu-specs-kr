@@ -1,0 +1,176 @@
+[
+  {
+    "field": "id",
+    "type": "INTEGER",
+    "ko": "고유 ID",
+    "en": "Unique row ID"
+  },
+  {
+    "field": "name",
+    "type": "TEXT",
+    "ko": "GPU 모델명",
+    "en": "GPU model name"
+  },
+  {
+    "field": "manufacturer",
+    "type": "TEXT",
+    "ko": "제조사",
+    "en": "Manufacturer (NVIDIA / AMD / Intel)"
+  },
+  {
+    "field": "architecture",
+    "type": "TEXT",
+    "ko": "아키텍처",
+    "en": "GPU architecture / generation"
+  },
+  {
+    "field": "gpu_chip",
+    "type": "TEXT",
+    "ko": "GPU 칩 코드네임",
+    "en": "GPU chip codename"
+  },
+  {
+    "field": "release_date",
+    "type": "TEXT",
+    "ko": "출시일 (원문 텍스트)",
+    "en": "Release date (raw text from Wikipedia)"
+  },
+  {
+    "field": "release_year",
+    "type": "INTEGER",
+    "ko": "출시 연도",
+    "en": "Release year (parsed integer)"
+  },
+  {
+    "field": "bus_interface",
+    "type": "TEXT",
+    "ko": "버스 인터페이스",
+    "en": "PCIe bus interface"
+  },
+  {
+    "field": "memory_size",
+    "type": "TEXT",
+    "ko": "메모리 용량 (원문)",
+    "en": "VRAM size (raw text)"
+  },
+  {
+    "field": "memory_size_gb",
+    "type": "REAL",
+    "ko": "메모리 용량 (GB)",
+    "en": "VRAM size in gigabytes (parsed)"
+  },
+  {
+    "field": "memory_type",
+    "type": "TEXT",
+    "ko": "메모리 종류",
+    "en": "Memory type (GDDR6, HBM2 …)"
+  },
+  {
+    "field": "memory_bus",
+    "type": "TEXT",
+    "ko": "메모리 버스 폭",
+    "en": "Memory bus width (bits)"
+  },
+  {
+    "field": "memory_bandwidth",
+    "type": "TEXT",
+    "ko": "메모리 대역폭",
+    "en": "Memory bandwidth"
+  },
+  {
+    "field": "gpu_clock",
+    "type": "TEXT",
+    "ko": "GPU 기본 클럭",
+    "en": "Base GPU clock"
+  },
+  {
+    "field": "boost_clock",
+    "type": "TEXT",
+    "ko": "부스트 클럭",
+    "en": "Boost clock"
+  },
+  {
+    "field": "memory_clock",
+    "type": "TEXT",
+    "ko": "메모리 클럭",
+    "en": "Memory clock"
+  },
+  {
+    "field": "shaders",
+    "type": "TEXT",
+    "ko": "셰이더 프로세서 수",
+    "en": "Shader processor / CUDA core count"
+  },
+  {
+    "field": "tmus",
+    "type": "TEXT",
+    "ko": "TMU 수",
+    "en": "Texture mapping unit count"
+  },
+  {
+    "field": "rops",
+    "type": "TEXT",
+    "ko": "ROP 수",
+    "en": "Render output unit count"
+  },
+  {
+    "field": "tdp",
+    "type": "TEXT",
+    "ko": "TDP (원문)",
+    "en": "Thermal design power (raw text)"
+  },
+  {
+    "field": "tdp_w",
+    "type": "INTEGER",
+    "ko": "TDP (W)",
+    "en": "TDP in watts (parsed integer)"
+  },
+  {
+    "field": "process_node",
+    "type": "TEXT",
+    "ko": "공정 노드",
+    "en": "Manufacturing process node"
+  },
+  {
+    "field": "transistors",
+    "type": "TEXT",
+    "ko": "트랜지스터 수",
+    "en": "Transistor count"
+  },
+  {
+    "field": "die_size",
+    "type": "TEXT",
+    "ko": "다이 크기",
+    "en": "Die size"
+  },
+  {
+    "field": "source_url",
+    "type": "TEXT",
+    "ko": "소스 URL",
+    "en": "Source URL"
+  },
+  {
+    "field": "source_page",
+    "type": "TEXT",
+    "ko": "Wikipedia 페이지 제목",
+    "en": "Wikipedia page title used for scraping"
+  },
+  {
+    "field": "collected_at",
+    "type": "TEXT",
+    "ko": "수집 시각 (UTC ISO)",
+    "en": "Timestamp when first scraped (UTC ISO 8601)"
+  },
+  {
+    "field": "last_updated_at",
+    "type": "TEXT",
+    "ko": "마지막 갱신 시각",
+    "en": "Timestamp of last update (UTC ISO 8601)"
+  },
+  {
+    "field": "created_at",
+    "type": "TEXT",
+    "ko": "DB 생성 시각",
+    "en": "Row creation timestamp in DB"
+  }
+]

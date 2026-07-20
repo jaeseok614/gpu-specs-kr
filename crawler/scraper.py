@@ -8,6 +8,7 @@ import time
 import re
 import logging
 import os
+from datetime import datetime, timezone
 from typing import Optional
 
 import requests
@@ -51,6 +52,12 @@ CREATE TABLE IF NOT EXISTS gpus (
     transistors TEXT,
     die_size TEXT,
     source_url TEXT,
+    source_page TEXT,
+    collected_at TEXT,
+    last_updated_at TEXT,
+    memory_size_gb REAL,
+    tdp_w INTEGER,
+    release_year INTEGER,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(name, manufacturer)
 );
@@ -272,9 +279,55 @@ def scrape_page(page_title: str, manufacturer: str) -> list[dict]:
             gpus = parse_table(element, manufacturer, current_arch)
             if gpus:
                 logger.info("  [%s] %d개", current_arch or "?", len(gpus))
+                for gpu in gpus:
+                    gpu["source_page"] = page_title
                 all_gpus.extend(gpus)
 
     return all_gpus
+
+
+# ── 정규화 필드 파싱 ──────────────────────────────────────────────────────────
+
+def parse_memory_size_gb(memory_size: Optional[str]) -> Optional[float]:
+    """'8 GB', '4096 MB', '16GB' 등의 문자열에서 GB 단위 숫자를 추출."""
+    if not memory_size:
+        return None
+    s = memory_size.upper()
+    # MB
+    m = re.search(r'([\d,]+(?:\.\d+)?)\s*MB', s)
+    if m:
+        try:
+            return round(float(m.group(1).replace(",", "")) / 1024, 4)
+        except ValueError:
+            pass
+    # GB
+    m = re.search(r'([\d,]+(?:\.\d+)?)\s*GB', s)
+    if m:
+        try:
+            return float(m.group(1).replace(",", ""))
+        except ValueError:
+            pass
+    return None
+
+
+def parse_tdp_w(tdp: Optional[str]) -> Optional[int]:
+    """'150 W', '250W', '180 watts' 등의 문자열에서 정수 와트를 추출."""
+    if not tdp:
+        return None
+    m = re.search(r'(\d+)', tdp.replace(",", ""))
+    if m:
+        return int(m.group(1))
+    return None
+
+
+def parse_release_year(release_date: Optional[str]) -> Optional[int]:
+    """'January 2020', '2019', 'Q3 2021' 등의 문자열에서 4자리 연도를 추출."""
+    if not release_date:
+        return None
+    m = re.search(r'\b(19|20)\d{2}\b', release_date)
+    if m:
+        return int(m.group(0))
+    return None
 
 
 # ── DB 저장 ──────────────────────────────────────────────────────────────────
@@ -286,6 +339,8 @@ def upsert_gpu(conn: sqlite3.Connection, data: dict) -> None:
         "memory_bandwidth", "gpu_clock", "boost_clock", "memory_clock",
         "shaders", "tmus", "rops", "tdp", "process_node",
         "transistors", "die_size", "source_url",
+        "source_page", "collected_at", "last_updated_at",
+        "memory_size_gb", "tdp_w", "release_year",
     ]
     row = {f: data.get(f) for f in fields}
     conn.execute(
@@ -293,11 +348,15 @@ def upsert_gpu(conn: sqlite3.Connection, data: dict) -> None:
         INSERT INTO gpus (name, manufacturer, architecture, gpu_chip, release_date,
             bus_interface, memory_size, memory_type, memory_bus, memory_bandwidth,
             gpu_clock, boost_clock, memory_clock, shaders, tmus, rops, tdp,
-            process_node, transistors, die_size, source_url)
+            process_node, transistors, die_size, source_url,
+            source_page, collected_at, last_updated_at,
+            memory_size_gb, tdp_w, release_year)
         VALUES (:name, :manufacturer, :architecture, :gpu_chip, :release_date,
             :bus_interface, :memory_size, :memory_type, :memory_bus, :memory_bandwidth,
             :gpu_clock, :boost_clock, :memory_clock, :shaders, :tmus, :rops, :tdp,
-            :process_node, :transistors, :die_size, :source_url)
+            :process_node, :transistors, :die_size, :source_url,
+            :source_page, :collected_at, :last_updated_at,
+            :memory_size_gb, :tdp_w, :release_year)
         ON CONFLICT(name, manufacturer) DO UPDATE SET
             architecture=excluded.architecture,
             gpu_chip=excluded.gpu_chip, release_date=excluded.release_date,
@@ -307,7 +366,12 @@ def upsert_gpu(conn: sqlite3.Connection, data: dict) -> None:
             boost_clock=excluded.boost_clock, memory_clock=excluded.memory_clock,
             shaders=excluded.shaders, tmus=excluded.tmus, rops=excluded.rops,
             tdp=excluded.tdp, process_node=excluded.process_node,
-            transistors=excluded.transistors, die_size=excluded.die_size
+            transistors=excluded.transistors, die_size=excluded.die_size,
+            source_page=excluded.source_page,
+            last_updated_at=excluded.last_updated_at,
+            memory_size_gb=excluded.memory_size_gb,
+            tdp_w=excluded.tdp_w,
+            release_year=excluded.release_year
         """,
         row,
     )
@@ -329,6 +393,13 @@ def run_crawler(limit: Optional[int] = None, delay: float = 1.0) -> None:
                 if not gpu.get("name"):
                     continue
                 try:
+                    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+                    # Populate normalized numeric fields
+                    gpu["memory_size_gb"] = parse_memory_size_gb(gpu.get("memory_size"))
+                    gpu["tdp_w"] = parse_tdp_w(gpu.get("tdp"))
+                    gpu["release_year"] = parse_release_year(gpu.get("release_date"))
+                    gpu["collected_at"] = now
+                    gpu["last_updated_at"] = now
                     upsert_gpu(conn, gpu)
                     conn.commit()
                     saved += 1

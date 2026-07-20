@@ -117,14 +117,14 @@ export default function GPUDetailPage({ compareList, addToCompare }) {
               {inCompare ? "비교 목록에 있음" : "비교에 추가"}
             </button>
 
-            {gpu.techpowerup_url && (
+            {gpu.source_page && (
               <a
-                href={gpu.techpowerup_url}
+                href={`https://en.wikipedia.org/wiki/${gpu.source_page}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
               >
-                TechPowerUp에서 보기 &rarr;
+                Wikipedia에서 보기 &rarr;
               </a>
             )}
           </div>
