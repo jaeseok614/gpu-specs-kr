@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 2 * * 0'  # 매주 일요일 02:00 UTC
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/update-data.yml
 
 permissions:
   contents: write
